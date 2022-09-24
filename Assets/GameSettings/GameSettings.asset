@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d87beb82c4ac8d14fa2e3a03519e0c35, type: 3}
+  m_Name: GameSettings
+  m_EditorClassIdentifier: 
+  CameraMovementSpeed: 5
+  CameraRotationSpeed: 7
+  MaxHorizontalRotation: 40
+  MaxVerticalRotation: 20
+  SwipeScale: 30
+  TurelRotateSpeed: 5
+  FireRate: 10
+  BulletSpeed: 20
+  BulletLifeTime: 2
+  HitSqrRadius: 0.5
