@@ -11,7 +11,7 @@ public class BulletFactory {
 
     public Bullet SpawnBullet(Transform barrel) {
         Bullet bullet = Object.Instantiate(_bullet, barrel.position, barrel.rotation);
-        bullet.Init(barrel.forward.normalized, _gameSettings.BulletLifeTime);
+        bullet.Init(_gameSettings.BulletLifeTime);
         return bullet;
     }
 }

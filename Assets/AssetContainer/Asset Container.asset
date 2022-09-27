@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Asset Container
   m_EditorClassIdentifier: 
   Bullet: {fileID: 4023086652556682433, guid: aa5ff813236d9fe49994b3f936851866, type: 3}
+  Airplane: {fileID: 4859174182464318585, guid: 915d703d7fc238c499b0cae5263934a1, type: 3}

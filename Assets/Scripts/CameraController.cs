@@ -2,24 +2,30 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CameraController {
     private Camera _camera;
     private Transform _targetPoint, _container;
+    private Tween _zoomTween;
     private Vector3 _startRotation;
     private Vector3 _defaultRotationEuler;
     private float _offsetScale, _rotateLerpSpeed, _moveLerpSpeed, _maxRotateX, _maxRotateY;
+    private float _defaultFieldOfView;
+    private bool _isZoom;
 
     public CameraController(GameSettings gameSettings, LevelData levelData, InputService inputService) {
+        _container = levelData.ContainerForTargetPoint;
+        _targetPoint = levelData.TargetPointForCamera;
+        _camera = levelData.Camera;
+
         _maxRotateX = gameSettings.MaxVerticalRotation;
         _maxRotateY = gameSettings.MaxHorizontalRotation;
         _offsetScale = gameSettings.SwipeScale;
         _rotateLerpSpeed = gameSettings.CameraRotationSpeed;
         _moveLerpSpeed = gameSettings.CameraMovementSpeed;
 
-        _container = levelData.ContainerForTargetPoint;
-        _targetPoint = levelData.TargetPointForCamera;
-        _camera = levelData.Camera;
+        _defaultFieldOfView = _camera.fieldOfView;
 
         _defaultRotationEuler = _container.eulerAngles;
         _camera.transform.position = _targetPoint.position;
@@ -28,9 +34,25 @@ public class CameraController {
         inputService.OnSwipeStart += KeepStartRotate;
         inputService.OnSwipe += RotateContainer;
     }
+
     public void GameUpdate() {
         MoveCamera();
         RotateCamera();
+    }
+
+    public void EnableZoom(bool value) {
+        if(_isZoom != value) {
+            _isZoom = value;
+            Zoom(value);
+        }
+    }
+
+    private void Zoom(bool value) {
+        if (_zoomTween != null)
+            _zoomTween.Kill();
+
+        float newFieldOfView = value ? _defaultFieldOfView / 1.5f : _defaultFieldOfView;
+        _zoomTween = _camera.DOFieldOfView(newFieldOfView, .5f);
     }
 
     private void RotateContainer(Vector3 direction) {

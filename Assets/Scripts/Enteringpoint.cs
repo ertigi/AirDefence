@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR;
 
 public class Enteringpoint : MonoBehaviour {
     [SerializeField] private LevelData _levelData;
@@ -14,6 +13,7 @@ public class Enteringpoint : MonoBehaviour {
     private TurelController _turelController;
     private BulletController _bulletController;
     private Shooting _shooting;
+    private EnemyController _enemyController;
 
     private void Start() {
         _levelData.Turel.Init();
@@ -21,8 +21,9 @@ public class Enteringpoint : MonoBehaviour {
         _inputService = new InputService(_levelData.Camera);
         _cameraController = new CameraController(_gameSettings, _levelData, _inputService);
         _turelController = new TurelController(_levelData, _gameSettings);
-        _bulletController = new BulletController(_assetContainer, _gameSettings, _testEnemy);
-        _shooting = new Shooting(_gameSettings, _levelData, _bulletController, this);
+        _bulletController = new BulletController(_assetContainer, _gameSettings, _levelData);
+        _shooting = new Shooting(_gameSettings, _levelData, _bulletController, _cameraController, this);
+        _enemyController = new EnemyController(_assetContainer, _levelData, _bulletController, this);
     }
 
     private void Update() {
@@ -31,5 +32,6 @@ public class Enteringpoint : MonoBehaviour {
         _turelController.GameUpdate();
         _bulletController.GameUpdate();
         _shooting.GameUpdate();
+        _enemyController.GameUpdate();
     }
 }

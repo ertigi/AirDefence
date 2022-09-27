@@ -7,4 +7,5 @@ public class LevelData : MonoBehaviour {
     public Transform TargetPointForCamera;
     public Transform ContainerForTargetPoint;
     public Turel Turel;
+    public PathsContainer PathsContainer;
 }

@@ -19,6 +19,6 @@ MonoBehaviour:
   SwipeScale: 30
   TurelRotateSpeed: 5
   FireRate: 10
-  BulletSpeed: 20
-  BulletLifeTime: 2
-  HitSqrRadius: 0.5
+  BulletSpeed: 150
+  BulletLifeTime: 5
+  HitSqrRadius: 3

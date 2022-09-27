@@ -5,9 +5,12 @@ public class Bullet : MonoBehaviour {
 
     private float LifeTime;
 
-    public void Init(Vector3 direction, float lifeTime) {
-        MoveDirectionNormalized = direction;
+    public void Init(float lifeTime) {
         LifeTime = lifeTime;
+    }
+
+    public void SetMoveDirection(Vector3 direction) {
+        MoveDirectionNormalized = direction;
     }
 
     public bool ReduceLifeTime(float time) {
