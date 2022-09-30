@@ -9,9 +9,12 @@ public class GameSettings : ScriptableObject {
     public float MaxVerticalRotation = 20;
     public float SwipeScale = 30;
     [Header("Turel")]
+    public int MaxHealth = 20;
     public float TurelRotateSpeed = 5;
     public float FireRate = 10;
     public float BulletSpeed = 10;
     public float BulletLifeTime = 2;
     public float HitSqrRadius = .5f;
+    [Header("Game")]
+    public int AirplaneAmount = 10;
 }

@@ -7,8 +7,8 @@ public class AirplaneFactory {
         _airplanePrefab = assetContainer.Airplane;
     }
 
-    public Airplane SpawnAirplane() {
-        Airplane newAirplane =  Object.Instantiate(_airplanePrefab);
+    public Airplane SpawnAirplane(Vector3 spawnPosition) {
+        Airplane newAirplane =  Object.Instantiate(_airplanePrefab, spawnPosition, Quaternion.identity);
 
         return newAirplane;
     }

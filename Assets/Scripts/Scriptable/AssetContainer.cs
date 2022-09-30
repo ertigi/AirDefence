@@ -6,4 +6,6 @@ using UnityEngine;
 public class AssetContainer : ScriptableObject {
     public Bullet Bullet;
     public Airplane Airplane;
+    public ParticleSystem Impact;
+    public ParticleSystem Explosion;
 }

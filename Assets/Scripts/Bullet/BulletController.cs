@@ -2,23 +2,27 @@
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class BulletController {
     private EnemyController _enemyController;
     private GameSettings _gameSettings;
-
+    private ParticleFactory _particleFactory;
+    private InGamePanel _inGamePanel;
     private BulletFactory _bulletFactory;
+    private TurelController _turelController;
+
     private List<Bullet> _playerBullets;
     private List<Bullet> _enemyBullets;
     private Transform _target;
     private Transform _playerBody;
     private float _bulletSpeed, _hitSqrRadius;
 
-    public BulletController(AssetContainer assetContainer, GameSettings gameSettings, LevelData levelData) {
+    public BulletController(AssetContainer assetContainer, GameSettings gameSettings, LevelData levelData, ParticleFactory particleFactory, TurelController turelController, UIRoot uIRoot) {
         _bulletFactory = new BulletFactory(assetContainer.Bullet, gameSettings);
         _gameSettings = gameSettings;
-
+        _particleFactory = particleFactory;
+        _turelController = turelController;
+        _inGamePanel = uIRoot.GetPanel(UIPanelType.InGame) as InGamePanel;
         _playerBody = levelData.Turel.Body;
 
 
@@ -65,7 +69,7 @@ public class BulletController {
         if (_playerBullets.Count > 0)
             for (int i = 0; i < _playerBullets.Count; i++) {
                 if (_playerBullets[i].ReduceLifeTime(deltaTime)) {
-                    UnityEngine.Object.Destroy(_playerBullets[i].gameObject);
+                    DestroyBullet(_playerBullets[i]);
                     _playerBullets.RemoveAt(i);
                 }
             }
@@ -73,10 +77,15 @@ public class BulletController {
         if (_enemyBullets.Count > 0)
             for (int i = 0; i < _enemyBullets.Count; i++) {
                 if (_enemyBullets[i].ReduceLifeTime(deltaTime)) {
-                    UnityEngine.Object.Destroy(_enemyBullets[i].gameObject);
+                    DestroyBullet(_enemyBullets[i]);
                     _enemyBullets.RemoveAt(i);
                 }
             }
+    }
+
+    private void DestroyBullet(Bullet bullet) {
+        _particleFactory.SpawnParticle(ParticleType.Impact, bullet.transform.position);
+        UnityEngine.Object.Destroy(bullet.gameObject);
     }
 
     private void MoveBullets() {
@@ -97,8 +106,9 @@ public class BulletController {
             for (int j = 0; j < _enemyController.Airplanes.Count; j++) {
                 if (Vector3.SqrMagnitude(_playerBullets[i].transform.position - _enemyController.Airplanes[j].transform.position) < _hitSqrRadius) {
                     _enemyController.Airplanes[j].Hit();
-                    UnityEngine.Object.Destroy(_playerBullets[i].gameObject);
+                    DestroyBullet(_playerBullets[i]);
                     _playerBullets.RemoveAt(i);
+                    _inGamePanel.ShowHitAim();
                 }
             }
         }
@@ -107,7 +117,8 @@ public class BulletController {
     private void CheckHitOnPlayer() {
         for (int i = 0; i < _enemyBullets.Count; i++) {
             if (Vector3.SqrMagnitude(_enemyBullets[i].transform.position - _playerBody.position) < _hitSqrRadius) {
-                UnityEngine.Object.Destroy(_enemyBullets[i].gameObject);
+                _turelController.Hit();
+                DestroyBullet(_enemyBullets[i]);
                 _enemyBullets.RemoveAt(i);
             }
         }

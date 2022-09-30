@@ -8,33 +8,39 @@ public class EnemyController {
     private AirplaneFactory _airplaneFactory;
     private PathsContainer _pathsController;
     private BulletController _bulletController;
-    private MonoBehaviour _coroutineRunner;
+    private ParticleFactory _particleFactory;
+    private Enteringpoint _enteringpoint;
+
     private Camera _camera;
 
-    public EnemyController (AssetContainer assetContainer, LevelData levelData, BulletController bulletController,MonoBehaviour monoBehaviour) {
+    private int _airplansAmountInGame;
+    private bool _isCanSpawnNewAirplanes;
+
+    public EnemyController (AssetContainer assetContainer, GameSettings gameSettings, LevelData levelData, BulletController bulletController, ParticleFactory particleFactory, Enteringpoint enteringpoint) {
         _airplaneFactory = new AirplaneFactory(assetContainer);
+        _airplansAmountInGame = gameSettings.AirplaneAmount;
         _pathsController = levelData.PathsContainer;
         _camera = levelData.Camera;
 
         _bulletController = bulletController;
-        _coroutineRunner = monoBehaviour;
+        _particleFactory = particleFactory;
+        _enteringpoint = enteringpoint;
 
         _bulletController.SetEnemyController(this);
 
         Airplanes = new List<Airplane>();
-
-        _coroutineRunner.StartCoroutine(SpawnRoutine());
-        _coroutineRunner.StartCoroutine(ShootingRoutine());
     }
 
-    public void GameUpdate() {
-        for (int i = 0; i < Airplanes.Count; i++) {
-            Airplanes[i].GameUpdate();
-        }
+    public void StartGame() {
+        _isCanSpawnNewAirplanes = true;
+
+        _enteringpoint.StartCoroutine(SpawnRoutine());
+        _enteringpoint.StartCoroutine(ShootingRoutine());
     }
 
     public void DestroyAirplane(Airplane airplane, AirplanePath airplanePath) {
         _pathsController.ClearPathAction(airplanePath);
+        _particleFactory.SpawnParticle(ParticleType.Explosion, airplane.transform.position);
         Airplanes.Remove(airplane);
         Object.Destroy(airplane.gameObject);
     }
@@ -44,22 +50,32 @@ public class EnemyController {
     }
 
     private IEnumerator SpawnRoutine() {
-        while (true) {
+        while (_isCanSpawnNewAirplanes) {
             //try spawn airplane if have empty path
             Debug.Log("CheckForEmptyPaths");
             if (_pathsController.CheckForEmptyPaths()) {
                 Debug.Log("spawn new airplane");
-                Airplane airplane = _airplaneFactory.SpawnAirplane();
-                AirplanePath airplanePath = _pathsController.GetEmptyPath();
+                AirplanePath airplanePath = _pathsController.GetRandomEmptyPath();
+                Airplane airplane = _airplaneFactory.SpawnAirplane(airplanePath.SplineComputer.GetPoint(0).position);
 
                 airplane.Init(this, airplanePath, _camera);
                 airplanePath.Init(() => PathTriggerAction(airplane));
 
                 Airplanes.Add(airplane);
+                --_airplansAmountInGame;
+                if (_airplansAmountInGame <= 0) {
+                    _isCanSpawnNewAirplanes = false;
+                    _enteringpoint.StartCoroutine(WaitEndGame());
+                }
             }
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2.5f);
         }
+    }
+
+    private IEnumerator WaitEndGame() {
+        yield return new WaitWhile(() => Airplanes.Count > 0);
+        _enteringpoint.WinGame();
     }
 
     private IEnumerator ShootingRoutine() {

@@ -7,19 +7,15 @@ using System;
 public class PathsContainer : MonoBehaviour {
     [SerializeField] private List<AirplanePath> _airplanePaths = new List<AirplanePath>();
      
-    public void Init() {
-
-    }
-
-    public AirplanePath GetEmptyPath() {
+    public AirplanePath GetRandomEmptyPath() {
         AirplanePath airplanePath = null;
-        foreach (var item in _airplanePaths) {
-            if (!item.IsHaveFollower) {
-                airplanePath = item;
-                break;
-            }
-        }
-        return airplanePath;
+        int rand;
+
+        do {
+            rand = UnityEngine.Random.Range(0, _airplanePaths.Count);
+        } while (_airplanePaths[rand].IsHaveFollower);
+
+        return _airplanePaths[rand];
     }
 
     public void ClearPathAction(AirplanePath airplanePath) {

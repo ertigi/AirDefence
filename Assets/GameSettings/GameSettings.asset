@@ -15,10 +15,12 @@ MonoBehaviour:
   CameraMovementSpeed: 5
   CameraRotationSpeed: 7
   MaxHorizontalRotation: 40
-  MaxVerticalRotation: 20
+  MaxVerticalRotation: 30
   SwipeScale: 30
+  MaxHealth: 30
   TurelRotateSpeed: 5
   FireRate: 10
   BulletSpeed: 150
   BulletLifeTime: 5
   HitSqrRadius: 3
+  AirplaneAmount: 10

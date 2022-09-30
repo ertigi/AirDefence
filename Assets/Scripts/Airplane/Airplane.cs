@@ -9,7 +9,7 @@ public class Airplane : MonoBehaviour {
     public List<Transform> Barrels;
     public bool IsShooting;
 
-    [SerializeField] private Transform _canvas;
+    [SerializeField] private List<GameObject> _trails = new List<GameObject>();
 
     private int _health = 5;
 
@@ -24,6 +24,8 @@ public class Airplane : MonoBehaviour {
 
         Follower.spline = airplanePath.SplineComputer;
         Follower.follow = true;
+
+        StartCoroutine(TrailsEnable());
     }
 
     public void Hit() {
@@ -33,7 +35,8 @@ public class Airplane : MonoBehaviour {
         }
     }
 
-    public void GameUpdate() {
-        _canvas.forward = _camera.transform.position - _canvas.position;
+    private IEnumerator TrailsEnable() {
+        yield return null;
+        _trails.ForEach((item) => item.SetActive(true));
     }
 }

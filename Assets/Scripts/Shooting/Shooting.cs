@@ -1,3 +1,4 @@
+using Lofelt.NiceVibrations;
 using System.Collections;
 using UnityEngine;
 
@@ -24,6 +25,9 @@ public class Shooting {
         _shootDelay = 1f / gameSettings.FireRate;
         _barrelAmount = _turel.Barrels.Count;
 
+    }
+
+    public void StartGame() {
         _coroutineRunner.StartCoroutine(ShootingRoutine());
     }
 
@@ -51,6 +55,8 @@ public class Shooting {
 
         _bulletController.PlayerShoot(_turel.Barrels[_currentBarrelIndex], _targetPosition);
         _turel.ShootAnim(_currentBarrelIndex, _shootDelay);
+
+        HapticPatterns.PlayPreset(HapticPatterns.PresetType.SoftImpact);
     }
 
     private IEnumerator ShootingRoutine() {

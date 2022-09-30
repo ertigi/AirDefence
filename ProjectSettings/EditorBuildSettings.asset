@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
-    guid: d1c3109bdb54ad54c8a2b2838528e640
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: Assets/NiceVibrations/Demo/NiceVibrationsDemo.unity
+    guid: a40d966b5d8df3140955c23cdc4994c8
+  - enabled: 1
+    path: Assets/Scenes/Main.unity
+    guid: 2247850949002a54089540655f93e63b
   m_configObjects: {}
