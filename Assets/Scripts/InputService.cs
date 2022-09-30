@@ -20,17 +20,17 @@ public class InputService {
     }
 
     public void GameUpdate() {
-        if (_isMobile) {
-
-        } else {
-            if (Input.GetMouseButtonDown(0)) {
-                StartTouch();
-            } else if (Input.GetMouseButton(0)) {
-                Touch();
-            } else if (Input.GetMouseButtonUp(0)) {
-                BreakTouch();
-            }
+        if (Input.GetMouseButtonDown(0)) {
+            StartTouch();
+        } else if (Input.GetMouseButton(0)) {
+            Touch();
+        } else if (Input.GetMouseButtonUp(0)) {
+            BreakTouch();
         }
+    }
+    public void BreakTouch() {
+        _startTouchPosition = Vector3.zero;
+        OnSwipeBreak?.Invoke();
     }
 
     private void Touch() {
@@ -43,8 +43,4 @@ public class InputService {
         OnSwipeStart?.Invoke();
     }
 
-    private void BreakTouch() {
-        _startTouchPosition = Vector3.zero;
-        OnSwipeBreak?.Invoke();
-    }
 }

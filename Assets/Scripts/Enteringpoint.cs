@@ -27,19 +27,20 @@ public class Enteringpoint : MonoBehaviour {
     }
 
     public void LoseGame() {
+        StopGame();
         _uIRoot.EnablePanel(UIPanelType.Lose);
         HapticPatterns.PlayPreset(HapticPatterns.PresetType.Failure);
-        StopGame();
     }
 
     public void WinGame() {
+        StopGame();
         _uIRoot.EnablePanel(UIPanelType.Win);
         HapticPatterns.PlayPreset(HapticPatterns.PresetType.Success);
-        StopGame();
     }
 
     private void StopGame() {
-        _uIRoot.EnablePanel(UIPanelType.Win);
+        _bulletController.DestroyAllBullet();
+        _inputService.BreakTouch();
         _isGame = false;
         StopAllCoroutines();
     }
@@ -64,10 +65,10 @@ public class Enteringpoint : MonoBehaviour {
         if(_isGame) {
             _inputService.GameUpdate();
             _uIRoot.GameUpdate();
-            _cameraController.GameUpdate();
             _turelController.GameUpdate();
             _bulletController.GameUpdate();
             _shooting.GameUpdate();
         }
+        _cameraController.GameUpdate();
     }
 }

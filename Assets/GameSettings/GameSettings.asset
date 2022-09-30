@@ -16,9 +16,9 @@ MonoBehaviour:
   CameraRotationSpeed: 7
   MaxHorizontalRotation: 40
   MaxVerticalRotation: 30
-  SwipeScale: 30
-  MaxHealth: 30
-  TurelRotateSpeed: 5
+  SwipeScale: 40
+  MaxHealth: 40
+  TurelRotateSpeed: 6
   FireRate: 10
   BulletSpeed: 150
   BulletLifeTime: 5

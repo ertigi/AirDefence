@@ -63,6 +63,16 @@ public class BulletController {
             CheckHitOnPlayer();
     }
 
+    public void DestroyAllBullet() {
+        for (int i = 0; i < _playerBullets.Count; i++) {
+            UnityEngine.Object.Destroy(_playerBullets[i].gameObject);
+        }
+
+        for (int i = 0; i < _enemyBullets.Count; i++) {
+            UnityEngine.Object.Destroy(_enemyBullets[i].gameObject);
+        }
+    }
+
     private void ReduceBulletsLifeTime() {
         float deltaTime = Time.deltaTime;
 
