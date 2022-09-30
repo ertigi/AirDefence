@@ -21,6 +21,6 @@ MonoBehaviour:
   TurelRotateSpeed: 6
   FireRate: 10
   BulletSpeed: 150
-  BulletLifeTime: 5
+  BulletLifeTime: 0.7
   HitSqrRadius: 3
   AirplaneAmount: 10

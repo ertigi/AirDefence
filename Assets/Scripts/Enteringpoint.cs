@@ -45,6 +45,10 @@ public class Enteringpoint : MonoBehaviour {
         StopAllCoroutines();
     }
 
+    private void Awake() {
+        Application.targetFrameRate = 300;
+    }
+
     private void Start() {
         _sceneLoad = new SceneLoad();
 

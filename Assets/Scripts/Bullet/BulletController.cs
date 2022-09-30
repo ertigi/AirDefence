@@ -93,8 +93,10 @@ public class BulletController {
             }
     }
 
-    private void DestroyBullet(Bullet bullet) {
-        _particleFactory.SpawnParticle(ParticleType.Impact, bullet.transform.position);
+    private void DestroyBullet(Bullet bullet, bool isUseParticle = false) {
+        if(isUseParticle)
+            _particleFactory.SpawnParticle(ParticleType.Impact, bullet.transform.position);
+
         UnityEngine.Object.Destroy(bullet.gameObject);
     }
 
@@ -116,7 +118,7 @@ public class BulletController {
             for (int j = 0; j < _enemyController.Airplanes.Count; j++) {
                 if (Vector3.SqrMagnitude(_playerBullets[i].transform.position - _enemyController.Airplanes[j].transform.position) < _hitSqrRadius) {
                     _enemyController.Airplanes[j].Hit();
-                    DestroyBullet(_playerBullets[i]);
+                    DestroyBullet(_playerBullets[i], true);
                     _playerBullets.RemoveAt(i);
                     _inGamePanel.ShowHitAim();
                 }
@@ -128,7 +130,7 @@ public class BulletController {
         for (int i = 0; i < _enemyBullets.Count; i++) {
             if (Vector3.SqrMagnitude(_enemyBullets[i].transform.position - _playerBody.position) < _hitSqrRadius) {
                 _turelController.Hit();
-                DestroyBullet(_enemyBullets[i]);
+                DestroyBullet(_enemyBullets[i], true);
                 _enemyBullets.RemoveAt(i);
             }
         }

@@ -40,7 +40,7 @@ public class Shooting {
         Ray ray = _camera.ViewportPointToRay(new Vector3(.5f, .5f, 0));
         RaycastHit hit;
 
-        if(Physics.SphereCast(ray, .1f, out hit)) {
+        if(Physics.SphereCast(ray, .3f, out hit)) {
             _targetPosition = hit.point;
             return true;
         } else {
